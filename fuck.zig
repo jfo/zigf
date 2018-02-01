@@ -20,30 +20,27 @@ fn bf(src: []const u8) void {
             '<' => i -= 1,
             '>' => i += 1,
             '[' => {
-                stack.push(6);
+                stack.push(si);
             },
             ']' => {
                 if (mem[i] == 0) {
                     _ = stack.pop();
                 } else {
-                    si = stack.peek() + 1;
-                    warn("{} ", si);
+                    si = stack.peek();
                 }
             },
             '.' => warn("{c}", mem[i]),
             else => undefined
         }
-        // warn("{} ", mem[i]);
-        // warn("{} ", si);
-        si -= 2;
+        si += 1;
     }
 }
 
 fn main() void {
     const hello = "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.";
-    // const hello = "+++[-]";
     bf(hello);
 }
+
 test "run" {
     main();
 }
