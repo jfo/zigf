@@ -6,7 +6,8 @@ pub fn main() void {
 
   for (src) |c| {
       switch(c) {
-          '+' => mem[0] += 1
+          '+' => mem[0] += 1,
+          else => undefined
       }
   }
 }
