@@ -14,5 +14,5 @@ fn bf(src: []const u8, mem: []u8) void {
 pub fn main() void {
     var mem = []u8{0} ** 30000;
     const src = "+++++";
-    bf(src, mem[0..mem.len]);
+    bf(src, mem[0..]);
 }
