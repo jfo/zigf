@@ -1,4 +1,4 @@
-fn bf(src: []const u8, mem: [30000]u8) void {
+fn bf(src: []const u8, mem: []u8) void {
     var memptr: u16 = 0;
     for (src) |c| {
         switch(c) {
@@ -14,5 +14,5 @@ fn bf(src: []const u8, mem: [30000]u8) void {
 pub fn main() void {
     var mem = []u8{0} ** 30000;
     const src = "+++++";
-    bf(src, mem);
+    bf(src, mem[0..mem.len]);
 }
