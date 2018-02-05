@@ -8,8 +8,8 @@ pub fn main() void {
 
     for (src) |c| {
         switch(c) {
-            '+' => mem[0] += 1,
-            '-' => mem[0] -= 1,
+            '+' => mem[memptr] += 1,
+            '-' => mem[memptr] -= 1,
             else => undefined
         }
     }
