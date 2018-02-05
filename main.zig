@@ -5,6 +5,6 @@ pub fn main() void {
   const src = "+++++";
 
   for (src) |c| {
-      warn("{}", c);
+      warn("{c}", c);
   }
 }
