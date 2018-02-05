@@ -5,6 +5,8 @@ pub fn main() void {
   const src = "+++++";
 
   for (src) |c| {
-      warn("{c}", c);
+      switch(c) {
+          '+' => mem[0] += 1
+      }
   }
 }
