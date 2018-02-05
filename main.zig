@@ -10,6 +10,8 @@ pub fn main() void {
         switch(c) {
             '+' => mem[memptr] += 1,
             '-' => mem[memptr] -= 1,
+            '>' => memptr += 1,
+            '<' => memptr -= 1,
             else => undefined
         }
     }
