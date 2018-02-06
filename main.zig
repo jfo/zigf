@@ -46,5 +46,5 @@ test "<" {
     var storage = []u8{0} ** 5;
     const src = ">>>+++<++<+";
     bf(src, storage[0..]);
-    assert(mem.eql(u8, storage, []u8{ 0, 1, 2, 3, 0 }));
+    assert(mem.eql(u8, storage, "\x00\x01\x02\x03\x00"));
 }
