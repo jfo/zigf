@@ -79,3 +79,11 @@ test "[] executes and exits" {
     assert(storage[1] == 25);
 }
 
+test "[] skips execution with internal braces and exits" {
+    var storage = []u8{0} ** 2;
+    const src = "++[>++[-]++<-]";
+    bf(src, storage[0..]);
+    assert(storage[0] == 2);
+    assert(storage[1] == 0);
+}
+
