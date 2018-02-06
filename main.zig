@@ -16,6 +16,8 @@ fn bf(src: []const u8, storage: []u8) void {
             '<' => memptr -= 1,
             '.' => warn("{c}", storage[memptr]),
             '[' => if (storage[memptr] == 0) {
+                while (src[srcptr] != ']')
+                    srcptr += 1;
             },
             ']' => if (storage[memptr] == 0) {
             },
@@ -59,6 +61,14 @@ test "<" {
     assert(mem.eql(u8, storage, "\x00\x01\x02\x03\x00"));
 }
 
+test "[] skips execution and exits" {
+    var storage = []u8{0} ** 2;
+    const src = "+++++>[>+++++<-]";
+    bf(src, storage[0..]);
+    assert(storage[0] == 5);
+    assert(storage[1] == 0);
+}
+
 test "[] executes and exits" {
     var storage = []u8{0} ** 2;
     const src = "+++++[>+++++<-]";
@@ -67,10 +77,3 @@ test "[] executes and exits" {
     assert(storage[1] == 25);
 }
 
-test "[] skips execution and exits" {
-    var storage = []u8{0} ** 2;
-    const src = "+++++>[>+++++<-]";
-    bf(src, storage[0..]);
-    assert(storage[0] == 5);
-    assert(storage[1] == 0);
-}
