@@ -4,8 +4,8 @@ fn bf(src: []const u8, mem: []u8) void {
     var memptr: u16 = 0;
     for (src) |c| {
         switch(c) {
-            '+' => mem[memptr] += 1,
-            '-' => mem[memptr] -= 1,
+            '+' => mem[memptr] +%= 1,
+            '-' => mem[memptr] -%= 1,
             '>' => memptr += 1,
             '<' => memptr -= 1,
             else => undefined
@@ -28,9 +28,9 @@ test "+" {
 
 test "-" {
     var mem = []u8{0};
-    const src = "+++++---";
+    const src = "---";
     bf(src, mem[0..]);
-    assert(mem[0] == 2);
+    assert(mem[0] == 253);
 }
 
 test ">" {
