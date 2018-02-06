@@ -19,7 +19,9 @@ fn bf(src: []const u8, storage: []u8) void {
                 while (src[srcptr] != ']')
                     srcptr += 1;
             },
-            ']' => if (storage[memptr] == 0) {
+            ']' => if (storage[memptr] != 0) {
+                while (src[srcptr] != '[')
+                    srcptr -= 1;
             },
             else => undefined
         }
