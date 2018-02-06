@@ -25,3 +25,10 @@ test "+" {
     bf(src, mem[0..]);
     assert(mem[0] == 3);
 }
+
+test "-" {
+    var mem = []u8{0};
+    const src = "+++++---";
+    bf(src, mem[0..]);
+    assert(mem[0] == 2);
+}
