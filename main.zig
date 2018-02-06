@@ -2,11 +2,14 @@ const std = @import("std");
 const warn = std.debug.warn;
 const assert = std.debug.assert;
 const mem = std.mem;
+const getc = @cImport(@cInclude("stdio.h")).getc;
 
 fn bf(src: []const u8, storage: []u8) void {
+
     var memptr: u16 = 0;
-    for (src) |c| {
-        switch(c) {
+    var srcptr: u16 = 0;
+    while (srcptr < src.len) {
+        switch(src[srcptr]) {
             '+' => storage[memptr] +%= 1,
             '-' => storage[memptr] -%= 1,
             '>' => memptr += 1,
@@ -18,6 +21,7 @@ fn bf(src: []const u8, storage: []u8) void {
             },
             else => undefined
         }
+        srcptr += 1;
     }
 }
 
