@@ -32,3 +32,19 @@ test "-" {
     bf(src, mem[0..]);
     assert(mem[0] == 2);
 }
+
+test ">" {
+    var mem = []u8{0} ** 5;
+    const src = ">>>+++";
+    bf(src, mem[0..]);
+    assert(mem[3] == 3);
+}
+
+test "<" {
+    var mem = []u8{0} ** 5;
+    const src = ">>>+++<++<+";
+    bf(src, mem[0..]);
+    assert(mem[3] == 3);
+    assert(mem[2] == 2);
+    assert(mem[1] == 1);
+}
