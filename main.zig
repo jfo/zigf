@@ -1,11 +1,13 @@
-const assert = @import("std").debug.assert;
+const std = @import("std");
+const assert = std.debug.assert;
+const mem = std.mem;
 
-fn bf(src: []const u8, mem: []u8) void {
+fn bf(src: []const u8, storage: []u8) void {
     var memptr: u16 = 0;
     for (src) |c| {
         switch(c) {
-            '+' => mem[memptr] +%= 1,
-            '-' => mem[memptr] -%= 1,
+            '+' => storage[memptr] +%= 1,
+            '-' => storage[memptr] -%= 1,
             '>' => memptr += 1,
             '<' => memptr -= 1,
             else => undefined
@@ -14,37 +16,37 @@ fn bf(src: []const u8, mem: []u8) void {
 }
 
 pub fn main() void {
-    var mem = []u8{0} ** 30000;
+    var storage = []u8{0} ** 30000;
     const src = "+++++";
-    bf(src, mem[0..]);
+    bf(src, storage[0..]);
 }
 
 test "+" {
-    var mem = []u8{0};
+    var storage = []u8{0};
     const src = "+++";
-    bf(src, mem[0..]);
-    assert(mem[0] == 3);
+    bf(src, storage[0..]);
+    assert(storage[0] == 3);
 }
 
 test "-" {
-    var mem = []u8{0};
+    var storage = []u8{0};
     const src = "---";
-    bf(src, mem[0..]);
-    assert(mem[0] == 253);
+    bf(src, storage[0..]);
+    assert(storage[0] == 253);
 }
 
 test ">" {
-    var mem = []u8{0} ** 5;
+    var storage = []u8{0} ** 5;
     const src = ">>>+++";
-    bf(src, mem[0..]);
-    assert(mem[3] == 3);
+    bf(src, storage[0..]);
+    assert(storage[3] == 3);
 }
 
 test "<" {
-    var mem = []u8{0} ** 5;
+    var storage = []u8{0} ** 5;
     const src = ">>>+++<++<+";
-    bf(src, mem[0..]);
-    assert(mem[3] == 3);
-    assert(mem[2] == 2);
-    assert(mem[1] == 1);
+    bf(src, storage[0..]);
+    assert(storage[3] == 3);
+    assert(storage[2] == 2);
+    assert(storage[1] == 1);
 }
