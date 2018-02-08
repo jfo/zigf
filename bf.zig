@@ -24,10 +24,15 @@ pub fn bf(src: []const u8, storage: []u8) void {
             '>' => memptr += 1,
             '<' => memptr -= 1,
             '.' => warn("{c}", storage[memptr]),
-            '[' => if (storage[memptr] == 0) srcptr += bf_seek(src, srcptr),
+            '[' => if (storage[memptr] == 0) {
+                srcptr += bf_seek(src, srcptr);
+            } else {
+                _ = stack.push(srcptr);
+            },
             ']' => if (storage[memptr] != 0) {
-                while (src[srcptr] != '[')
-                    srcptr -= 1;
+                srcptr = stack.peek();
+            } else {
+                _ = stack.pop();
             },
             else => undefined
         }
