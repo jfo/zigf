@@ -23,8 +23,16 @@ pub fn bf(src: []const u8, storage: []u8) void {
                 }
             },
             ']' => if (storage[memptr] != 0) {
-                while (src[srcptr] != '[')
+                var depth:u16 = 1;
+                srcptr -= 1;
+                while (depth > 0) {
+                    switch(src[srcptr]) {
+                        '[' => depth -= 1,
+                        ']' => depth += 1,
+                        else => undefined
+                    }
                     srcptr -= 1;
+                }
             },
             else => undefined
         }
