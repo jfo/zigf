@@ -14,24 +14,24 @@ pub fn bf(src: []const u8, storage: []u8) void {
                 var depth:u16 = 1;
                 srcptr += 1;
                 while (depth > 0) {
+                    srcptr += 1;
                     switch(src[srcptr]) {
                         '[' => depth += 1,
                         ']' => depth -= 1,
                         else => undefined
                     }
-                    srcptr += 1;
                 }
             },
             ']' => if (storage[memptr] != 0) {
                 var depth:u16 = 1;
                 srcptr -= 1;
                 while (depth > 0) {
+                    srcptr -= 1;
                     switch(src[srcptr]) {
                         '[' => depth -= 1,
                         ']' => depth += 1,
                         else => undefined
                     }
-                    srcptr -= 1;
                 }
             },
             else => undefined
