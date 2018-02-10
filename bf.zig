@@ -37,9 +37,9 @@ pub fn bf(src: []const u8, storage: []u8) void {
             '-' => storage[memptr] -%= 1,
             '>' => memptr += 1,
             '<' => memptr -= 1,
-            '.' => warn("{c}", storage[memptr]),
             '[' => if (storage[memptr] == 0) srcptr = seekForward(src, srcptr),
             ']' => if (storage[memptr] != 0) srcptr = seekBack(src, srcptr),
+            '.' => warn("{c}", storage[memptr]),
             else => undefined
         }
         srcptr += 1;
