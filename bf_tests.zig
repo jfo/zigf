@@ -65,6 +65,8 @@ test "[] executes with internal braces and exits" {
 test "errors on mismatched brackets" {
     var storage = []u8{0} ** 2;
     const src = "++>++[-]++<-]";
-    try bf(src, storage[0..]);
+    bf(src, storage[0..]) catch |err| {
+        assert(err == error.Overflow);
+    };
 }
 
