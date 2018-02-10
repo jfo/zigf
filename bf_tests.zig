@@ -62,11 +62,25 @@ test "[] executes with internal braces and exits" {
     assert(storage[1] == 2);
 }
 
-test "errors on mismatched brackets" {
+test "errors on mismatched brackets missing opening" {
     var storage = []u8{0} ** 2;
     const src = "++>++[-]++<-]";
-    bf(src, storage[0..]) catch |err| {
-        assert(err == error.Overflow);
-    };
+    if (bf(src, storage[0..])) {
+        @panic("expected error.Overflow");
+    } else |err| switch (err) {
+        error.Overflow => {},
+        error.OutOfBounds => {}
+    }
+}
+
+test "errors on mismatched brackets missing closing" {
+    var storage = []u8{0} ** 2;
+    const src = "+-[+>++[-]++<-";
+    if (bf(src, storage[0..])) {
+        @panic("expected error.OutOfBounds");
+    } else |err| switch (err) {
+        error.Overflow => {},
+        error.OutOfBounds => {}
+    }
 }
 
