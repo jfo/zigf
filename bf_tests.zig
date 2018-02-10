@@ -62,3 +62,9 @@ test "[] executes with internal braces and exits" {
     assert(storage[1] == 2);
 }
 
+test "errors on mismatched brackets" {
+    var storage = []u8{0} ** 2;
+    const src = "++>++[-]++<-]";
+    bf(src, storage[0..]);
+}
+
