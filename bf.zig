@@ -5,7 +5,7 @@ fn seekBack(src: []const u8, srcptr: u16) !u16 {
     var depth:u16 = 1;
     var ptr: u16 = srcptr - 1;
     while (depth > 0) {
-        ptr = try sub(u16, ptr, 1);
+        ptr = sub(u16, ptr, 1) catch return error.OutOfBounds;
         switch(src[ptr]) {
             '[' => depth -= 1,
             ']' => depth += 1,
