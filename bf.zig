@@ -1,7 +1,18 @@
 const warn = @import("std").debug.warn;
 
-fn seekBack() {
-};
+fn seekBack(src: []const u8, srcptr: u16) u16 {
+    var depth:u16 = 1;
+    var ptr: u16 = srcptr - 1;
+    while (depth > 0) {
+        ptr -= 1;
+        switch(src[ptr]) {
+            '[' => depth -= 1,
+            ']' => depth += 1,
+            else => undefined
+        }
+    }
+    return ptr;
+}
 
 fn seekForward(src: []const u8, srcptr: u16) u16 {
     var depth:u16 = 1;
@@ -28,18 +39,7 @@ pub fn bf(src: []const u8, storage: []u8) void {
             '<' => memptr -= 1,
             '.' => warn("{c}", storage[memptr]),
             '[' => if (storage[memptr] == 0) srcptr = seekForward(src, srcptr),
-            ']' => if (storage[memptr] != 0) {
-                var depth:u16 = 1;
-                srcptr -= 1;
-                while (depth > 0) {
-                    srcptr -= 1;
-                    switch(src[srcptr]) {
-                        '[' => depth -= 1,
-                        ']' => depth += 1,
-                        else => undefined
-                    }
-                }
-            },
+            ']' => if (storage[memptr] != 0) srcptr = seekBack(src, srcptr),
             else => undefined
         }
         srcptr += 1;
