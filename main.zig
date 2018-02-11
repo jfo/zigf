@@ -11,17 +11,21 @@ const fib = "++++++++++++++++++++++++++++++++++++++++++++>++++++++++++++++++++++
 
 pub fn main() void {
     var storage = []u8{0} ** 30000;
-    bf(cracklepop, storage[0..]);
+    _ = bf(cracklepop, storage[0..]);
 
     warn("\n");
     storage = []u8{0} ** 30000;
-    bf(serpinsky, storage[0..]);
+    _ = bf(serpinsky, storage[0..]);
 
     warn("\n");
     storage = []u8{0} ** 30000;
-    bf(hello_world, storage[0..]);
+    _ = bf(hello_world, storage[0..]);
 
     warn("\n");
     storage = []u8{0} ** 30000;
-    bf(fib, storage[0..]);
+    _ = bf(fib, storage[0..]);
+}
+
+test "run" {
+    main();
 }
