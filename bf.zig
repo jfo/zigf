@@ -3,13 +3,13 @@ const sub = @import("std").math.sub;
 
 fn seekBack(src: []const u8, srcptr: u16) !u16 {
     var depth:u16 = 1;
-    var ptr: u16 = srcptr - 1;
+    var ptr: u16 = srcptr;
     while (depth > 0) {
         ptr = sub(u16, ptr, 1) catch return error.OutOfBounds;
         switch(src[ptr]) {
             '[' => depth -= 1,
             ']' => depth += 1,
-            else => undefined
+            else => {}
         }
     }
     return ptr;
@@ -17,14 +17,14 @@ fn seekBack(src: []const u8, srcptr: u16) !u16 {
 
 fn seekForward(src: []const u8, srcptr: u16) !u16 {
     var depth:u16 = 1;
-    var ptr: u16 = srcptr + 1;
+    var ptr: u16 = srcptr;
     while (depth > 0) {
         ptr += 1;
         if (ptr >= src.len) return error.OutOfBounds;
         switch(src[ptr]) {
             '[' => depth += 1,
             ']' => depth -= 1,
-            else => undefined
+            else => {}
         }
     }
     return ptr;
@@ -42,7 +42,7 @@ pub fn bf(src: []const u8, storage: []u8) !void {
             '[' => if (storage[memptr] == 0) srcptr = try seekForward(src, srcptr),
             ']' => if (storage[memptr] != 0) srcptr = try seekBack(src, srcptr),
             '.' => warn("{c}", storage[memptr]),
-            else => undefined
+            else => {}
         }
         srcptr += 1;
     }
