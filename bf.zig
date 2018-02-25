@@ -1,5 +1,6 @@
-const warn = @import("std").debug.warn;
-const sub = @import("std").math.sub;
+const std = @import("std");
+const io = std.io;
+const sub = std.math.sub;
 
 fn seekBack(src: []const u8, srcptr: u16) !u16 {
     var depth:u16 = 1;
@@ -31,6 +32,8 @@ fn seekForward(src: []const u8, srcptr: u16) !u16 {
 }
 
 pub fn bf(src: []const u8, storage: []u8) !void {
+    const stdout = &(io.FileOutStream.init(&(io.getStdOut() catch unreachable)).stream);
+
     var memptr: u16 = 0;
     var srcptr: u16 = 0;
     while (srcptr < src.len) {
@@ -41,7 +44,7 @@ pub fn bf(src: []const u8, storage: []u8) !void {
             '<' => memptr -= 1,
             '[' => if (storage[memptr] == 0) srcptr = try seekForward(src, srcptr),
             ']' => if (storage[memptr] != 0) srcptr = try seekBack(src, srcptr),
-            '.' => warn("{c}", storage[memptr]),
+            '.' => try stdout.print("{c}", storage[memptr]),
             else => {}
         }
         srcptr += 1;
