@@ -32,7 +32,7 @@ fn seekForward(src: []const u8, srcptr: u16) !u16 {
 }
 
 pub fn bf(src: []const u8, storage: []u8) !void {
-    const stdout = &(io.FileOutStream.init(&(io.getStdOut() catch unreachable)).stream);
+    const stdout = &(io.FileOutStream.init(&(try io.getStdOut())).stream);
 
     var memptr: u16 = 0;
     var srcptr: u16 = 0;
