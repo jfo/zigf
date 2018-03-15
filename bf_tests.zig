@@ -31,11 +31,12 @@ test "<" {
 }
 
 test "[] skips execution and exits" {
-    var storage = []u8{0} ** 2;
+    var storage = []u8{0} ** 3;
     const src = "+++++>[>+++++<-]";
     try bf(src, storage[0..]);
     assert(storage[0] == 5);
     assert(storage[1] == 0);
+    assert(storage[2] == 0);
 }
 
 test "[] executes and exits" {
