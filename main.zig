@@ -15,7 +15,10 @@ pub fn main() void {
 
     warn("\n");
     storage = []u8{0} ** 30000;
-    bf(serpinsky, storage[0..]) catch {};
+    bf(serpinsky, storage[0..]) catch |err| switch (err) {
+        error.OutOfBounds => @panic("Out Of Bounds!"),
+        else => @panic("IO error")
+    };
 
     warn("\n");
     storage = []u8{0} ** 30000;
