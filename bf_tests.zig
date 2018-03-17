@@ -69,8 +69,8 @@ test "errors on mismatched brackets missing opening" {
     if (bf(src, storage[0..])) {
         @panic("expected error.Overflow");
     } else |err| switch (err) {
-        error.OutOfBounds => {},
-        else => {}
+        error.OutOfBounds => assert(true),
+        else => assert(false)
     }
 }
 
@@ -80,8 +80,8 @@ test "errors on mismatched brackets missing closing" {
     if (bf(src, storage[0..])) {
         @panic("expected error.OutOfBounds");
     } else |err| switch (err) {
-        error.OutOfBounds => {},
-        else => {}
+        error.OutOfBounds => assert(true),
+        else => assert(false)
     }
 }
 
