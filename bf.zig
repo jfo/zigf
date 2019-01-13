@@ -32,7 +32,8 @@ fn seekForward(src: []const u8, srcptr: u16) !u16 {
 }
 
 pub fn bf(src: []const u8, storage: []u8) !void {
-    const stdout = &(io.FileOutStream.init(&(try io.getStdOut())).stream);
+    const stdout = try std.io.getStdOut();
+    var outbuf: [1]u8 = undefined;
 
     var memptr: u16 = 0;
     var srcptr: u16 = 0;
@@ -42,9 +43,12 @@ pub fn bf(src: []const u8, storage: []u8) !void {
             '-' => storage[memptr] -%= 1,
             '>' => memptr += 1,
             '<' => memptr -= 1,
-            '[' => if (storage[memptr] == 0) srcptr = try seekForward(src, srcptr),
-            ']' => if (storage[memptr] != 0) srcptr = try seekBack(src, srcptr),
-            '.' => try stdout.print("{c}", storage[memptr]),
+            '[' => if (storage[memptr] == 0) { srcptr = try seekForward(src, srcptr); },
+            ']' => if (storage[memptr] != 0) { srcptr = try seekBack(src, srcptr); },
+            '.' => {
+                const char = try std.fmt.bufPrint(outbuf[0..], "{c}", storage[memptr]);
+                try stdout.write(char);
+            },
             else => {}
         }
         srcptr += 1;
